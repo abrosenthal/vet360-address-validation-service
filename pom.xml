@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>vet360.address.validation.service</groupId>
+		<artifactId>vet360-address-validation-service-parentpom</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>./vet360-address-validation-service-parentpom</relativePath>
+	</parent>
+
+	<artifactId>vet360-address-validation-service-all</artifactId>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>vet360-address-validation Maven Reactor Pom</description>
+
+	<modules>
+		<module>vet360-address-validation-service-parentpom</module>
+		<module>vet360-address-validation-service-server</module>
+	</modules>
+
+</project>

@@ -1,0 +1,2 @@
+mdm-cuf-person-inttest: 
+  baseUrl: OVERRIDE_IN_ENV_CONFIG_FILE

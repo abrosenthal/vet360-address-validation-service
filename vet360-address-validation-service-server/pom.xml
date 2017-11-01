@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>vet360.address.validation.service</groupId>
+		<artifactId>vet360-address-validation-service-parentpom</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>../vet360-address-validation-service-parentpom</relativePath>
+	</parent>
+
+	<artifactId>vet360-address-validation-service-server</artifactId>
+    <packaging>war</packaging>
+    <name>${project.artifactId}</name>
+    <description>MDM CUF Person Adapter VHA ES Server War</description>
+
+	<dependencies>
+		<!-- mdm-cuf-core dependencies  -->
+		<dependency>
+		    <groupId>mdm.cuf.core</groupId>
+		    <artifactId>mdm-cuf-core</artifactId>
+		    <scope>test</scope>
+		    <type>test-jar</type>
+		</dependency>
+		<dependency>
+		    <groupId>mdm.cuf.core</groupId>
+		    <artifactId>mdm-cuf-core-server</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>mdm.cuf.core</groupId>
+		    <artifactId>mdm-cuf-core-server</artifactId>
+		    <scope>test</scope>
+		    <type>test-jar</type>
+		</dependency>
+
+		<!-- mdm-cuf-person dependencies -->
+		<dependency>
+		    <groupId>mdm.cuf.person</groupId>
+		    <artifactId>mdm-cuf-person-bio</artifactId>
+		</dependency>
+
+
+        <!-- spring boot dependencies -->
+        <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+	    </dependency>
+
+        <!-- integration testing dependencies -->
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <scope>test</scope>
+       </dependency>
+       <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+           <groupId>com.aventstack</groupId>
+           <artifactId>extentreports</artifactId>
+           <version>3.0.6</version>
+           <scope>test</scope>
+        </dependency>
+                <dependency>
+           <groupId>com.vimalselvam</groupId>
+           <artifactId>cucumber-extentsreport</artifactId>
+           <version>3.0.0</version>
+           <scope>test</scope>
+        </dependency>
+                        <dependency>
+           <groupId>com.relevantcodes</groupId>
+           <artifactId>extentreports</artifactId>
+           <version>2.41.2</version>
+           <scope>test</scope>
+        </dependency>
+                   <dependency>
+           <groupId>com.google.code.gson</groupId>
+           <artifactId>gson</artifactId>
+           <scope>test</scope>
+        </dependency>
+         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+	</dependencies>
+</project>
