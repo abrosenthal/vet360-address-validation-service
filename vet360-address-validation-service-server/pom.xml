@@ -79,7 +79,7 @@
            <version>3.0.6</version>
            <scope>test</scope>
         </dependency>
-                <dependency>
+        <dependency>
            <groupId>com.vimalselvam</groupId>
            <artifactId>cucumber-extentsreport</artifactId>
            <version>3.0.0</version>
@@ -101,4 +101,17 @@
             <artifactId>httpclient</artifactId>
         </dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>          
+	    	</plugin>
+		</plugins>
+	</build>
 </project>
