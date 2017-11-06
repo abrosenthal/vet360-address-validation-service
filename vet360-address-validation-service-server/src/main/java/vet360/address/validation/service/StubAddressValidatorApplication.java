@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -38,8 +39,10 @@ public class StubAddressValidatorApplication {
 		catch(FileNotFoundException e) {
 			return "File Not Found";
 		} catch (Exception e1) {
+
 		    e1.printStackTrace();
 		    return "An error occurred";
+
 		}
 		
 		return message;

@@ -7,6 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -17,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=vet360.address.validation.service.StubAddressValidatorApplication.class)
 @AutoConfigureMockMvc(secure = false)
+
 public class StubAddressValidatorApplicationTests {
 	
 	@Autowired
