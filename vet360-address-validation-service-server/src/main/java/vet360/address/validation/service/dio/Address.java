@@ -1,8 +1,18 @@
 package vet360.address.validation.service.dio;
 
-public class Address {
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-	private String addressLine1;
+import mdm.cuf.core.api.ServiceResponse;
+
+@Component
+@ConfigurationProperties(prefix = "vet360.address.validation")
+public class Address extends ServiceResponse {
+
+	/** The Constant serialVersionUID.  */
+    private static final long serialVersionUID = -5020186022423349715L;
+    
+    private String addressLine1;
 	private String city;
 	private String stateCode;
 	private int zip;

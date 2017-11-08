@@ -8,16 +8,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import mdm.cuf.core.server.MdmCufCoreServerConfig;
+
 
 @Configuration
-@ComponentScan(basePackages = "vet360.address.validation", excludeFilters = @Filter(Configuration.class))
-//@Import({MdmCufCoreServerConfig.class, UtilAppServerRestProviderConfig.class})
+@ComponentScan(basePackages = {"vet360.address.validation.service" }, 
+    excludeFilters = @Filter(Configuration.class))
+@Import({MdmCufCoreServerConfig.class, vet360.address.validation.service.rest.ValidatorRestProviderConfig.class})
 @EnableAutoConfiguration(exclude=org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class)
 public class ValidatorServerConfig {
     

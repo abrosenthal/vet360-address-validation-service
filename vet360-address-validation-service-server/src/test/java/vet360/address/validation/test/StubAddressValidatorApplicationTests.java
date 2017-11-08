@@ -7,9 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -25,17 +22,10 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Autowired
 	private MockMvc mvc;
-
-	@Test
-    public void getHello() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Spectrum Stub Service")));
-    }
 	
 	@Test
 	public void testInvalidCharError() throws Exception {
-		 mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+		 mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
 		         + "\"city\" : \"Roswell\", \"stateCode\" : \"NY\", \"zip\" : \"30075\" }")
 		         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Invalid Characters in Entry")));
@@ -43,7 +33,7 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Test
 	public void testEmptyMandatoryFieldError() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+	    mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
                 + "\"city\" : \"Roswell\", \"stateCode\" : \"CA\", \"zip\" : \"30075\" }")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Mandatory Field is Empty")));
@@ -51,7 +41,7 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Test
 	public void testInvalidDateError() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+	    mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
                 + "\"city\" : \"Roswell\", \"stateCode\" : \"NV\", \"zip\" : \"30075\" }")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Date for Entry is invalid")));
@@ -59,7 +49,7 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Test
 	public void testInvalidEntryTypeError() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+	    mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
                 + "\"city\" : \"Roswell\", \"stateCode\" : \"WY\", \"zip\" : \"30075\" }")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Entry Must be Certain Type")));
@@ -67,7 +57,7 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Test
 	public void testMassiveEntryError() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+	    mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
                 + "\"city\" : \"Roswell\", \"stateCode\" : \"TX\", \"zip\" : \"30075\" }")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Entry is too large")));
@@ -75,7 +65,7 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Test
 	public void testAddressValidationError() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+	    mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
                 + "\"city\" : \"Roswell\", \"stateCode\" : \"HI\", \"zip\" : \"30075\" }")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Address Validation Failure")));
@@ -83,7 +73,7 @@ public class StubAddressValidatorApplicationTests {
 	
 	@Test
 	public void testAddressValidationSuccess() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.post("/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
+	    mvc.perform(MockMvcRequestBuilders.post("/validator/v1/validate").content("{ \"addressLine1\":\"555 Grove Lane\", "
                 + "\"city\" : \"Roswell\", \"stateCode\" : \"GA\", \"zip\" : \"30075\" }")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
          .andExpect(content().string(equalTo("Address is valid")));

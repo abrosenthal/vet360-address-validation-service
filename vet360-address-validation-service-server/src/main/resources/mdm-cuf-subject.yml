@@ -10,10 +10,14 @@
 # The default config contains global configs that apply under all profiles, unless overridden (which should be rare).
 #######################################################################################################################
 spring: 
-  profiles.include: MODE-MEMBER
+  profiles.include: MODE-UTIL-MICROSERVICE
 
 # default port if running as a spring-boot app (not a deployed war) and not overriding    
 server.port: 8081
+
+vet360.address.validation.service: 
+  demo-property-one: thisIsAnExampleProperty
+  
 
 # properties rendered in the /info endpoint
 info.mdm-cuf-person-adapter-vha-es-server:
@@ -41,6 +45,7 @@ es-service:
   endpoint: /contactinfo-ws/contactinf
   serviceUrl: http://localhost:7101/contactinfo-ws/contactinf
   
+
 
 ---
 ########################################################################################################################
