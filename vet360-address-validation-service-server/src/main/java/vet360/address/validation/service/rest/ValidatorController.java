@@ -1,9 +1,5 @@
 package vet360.address.validation.service.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +11,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import mdm.cuf.core.server.rest.provider.AbstractRestProvider;
 import mdm.cuf.core.server.rest.provider.SwaggerCommon;
-import vet360.address.validation.service.StubAddressValidatorApplication;
-import vet360.address.validation.service.ValidatorServerProperties;
-import vet360.address.validation.service.dio.Address;
+import mdm.cuf.person.bio.AddressBio;
+import vet360.address.validation.service.ValidatorService;
 
 @RequestMapping(value = ValidatorController.URL_PREFIX)
 @RestController
@@ -42,27 +37,14 @@ public class ValidatorController extends AbstractRestProvider {
     /** The description that shows up in swagger documentation. */
     protected static final String DESCRIPTION = "";
     
-    @Autowired
-    private ValidatorServerProperties properties;
-
-    @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    @ApiOperation(value = "Hello World.", notes = "Will invoke Hello World op.")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = SwaggerCommon.MESSAGE_200) })
-    public ResponseEntity<Address> helloWorld() {
-        Address response = new Address();
-        response.setAddressLine1("hello world");
-        response.setCity("City: " + properties.getDemoPropertyOne());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-	
 	@RequestMapping(value = "/validate", 
 	        method=RequestMethod.POST, 
 	        produces = {"application/json", "application/xml"})
-	@ApiOperation(value = "Validate.", notes = "Will validate address within the body.")
+	@ApiOperation(value = "Validate", notes = "Will validate address within the body")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = SwaggerCommon.MESSAGE_200) })
-	public String getResponse(@RequestBody Address address) {
-		
-		return StubAddressValidatorApplication.getResponseMessage(address.getStateCode());
+	public SpectrumCufResponse getResponse(@RequestBody SpectrumCufRequest cufRequest) {
+	    
+		AddressBio addressBio = (AddressBio) cufRequest.getBio();
+		return ValidatorService.validateCufAddress(addressBio);
 	}
-	
 }
