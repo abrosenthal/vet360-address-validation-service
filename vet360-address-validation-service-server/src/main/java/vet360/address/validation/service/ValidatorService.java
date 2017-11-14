@@ -8,8 +8,10 @@ import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -23,12 +25,13 @@ import vet360.address.validation.service.rest.SpectrumCufResponse;
 public class ValidatorService {
     static Logger log = Logger.getLogger(ValidatorService.class) ;
     
-    
+    /** Overriding public constructor */
     private ValidatorService() {}
     
     //Take in an AddressBio from a SpectrumCufRequest object, validate it, and return a SpectrumCufResponse object with Spectrum values
     public static SpectrumCufResponse validateCufAddress(AddressBio bio) {
         RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntityAddress;
         SpectrumCufResponse response = new SpectrumCufResponse();
         Map<Hints, String> hints;
         
@@ -38,7 +41,12 @@ public class ValidatorService {
         Address address = ValidatorConverter.mapBioToAddress(bio);
 
         //Call Spectrum UAM service 
-        ResponseEntity<String> responseEntityAddress = restTemplate.exchange(createUrl(address), HttpMethod.GET, entity, String.class);
+        try {
+            responseEntityAddress = restTemplate.exchange(createUrl(address), HttpMethod.GET, entity, String.class);
+        }
+        catch(HttpClientErrorException e) {
+           throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "The input data is invalid");
+        }
         
         //Transform Spectrum response into an Address object
         Address responseAddress = createResponseAddress(responseEntityAddress);

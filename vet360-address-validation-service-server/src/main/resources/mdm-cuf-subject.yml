@@ -37,14 +37,6 @@ mdm-cuf:
 rest-client:
   maxConnectionsPerRoute: 2
   maxConnections: 20
-  
-es-service:
-  apiVersion: v1
-  port: 7101
-  hostname: localhost
-  endpoint: /contactinfo-ws/contactinf
-  serviceUrl: http://localhost:7101/contactinfo-ws/contactinf
-  
 
 
 ---

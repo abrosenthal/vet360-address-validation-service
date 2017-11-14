@@ -68,7 +68,6 @@ public class Address extends ServiceResponse {
 	private String rdi;
 	private String confidence;
 	private String additionalInput;
-
 	
 	
 	//Spectrum result codes

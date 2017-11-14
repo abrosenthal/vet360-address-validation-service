@@ -1,9 +1,16 @@
 package vet360.address.validation.service.rest;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,14 +44,20 @@ public class ValidatorController extends AbstractRestProvider {
     /** The description that shows up in swagger documentation. */
     protected static final String DESCRIPTION = "";
     
+    @ExceptionHandler
+    void handleHttpClientErrorException(HttpClientErrorException e, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value());
+    }
+    
 	@RequestMapping(value = "/validate", 
 	        method=RequestMethod.POST, 
 	        produces = {"application/json", "application/xml"})
 	@ApiOperation(value = "Validate", notes = "Will validate address within the body")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = SwaggerCommon.MESSAGE_200) })
 	public SpectrumCufResponse getResponse(@RequestBody SpectrumCufRequest cufRequest) {
-	    
+	    SpectrumCufResponse cufResponse;
 		AddressBio addressBio = (AddressBio) cufRequest.getBio();
-		return ValidatorService.validateCufAddress(addressBio);
+		cufResponse = ValidatorService.validateCufAddress(addressBio);
+	    return cufResponse;
 	}
 }
