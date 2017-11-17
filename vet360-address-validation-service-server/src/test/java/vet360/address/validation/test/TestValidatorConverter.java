@@ -61,13 +61,13 @@ public class TestValidatorConverter {
     public void testDeserialization() {
         String json = "{" +
                 "\"Output\" : [ {" +
-                    "\"AddressLine1\" : \"576 AUDUBON ST\", " +
-                    "\"StateProvince\" : \"LA\", " +
-                    "\"PostalCode\" : \"70118-4950\", " +
-                    "\"Confidence\" : \"100.00\", " +
-                    "\"City\" : \"NEW ORLEANS\", " +
-                    "\"Override\" : \"null\", " +
-                    "\"AddressType\" : \"S\", " +
+                    "\"AddressLine1\" : \"576 AUDUBON ST\"," +
+                    "\"StateProvince\" : \"LA\"," +
+                    "\"PostalCode\" : \"70118-4950\"," +
+                    "\"Confidence\" : \"100.00\"," +
+                    "\"City\" : \"NEW ORLEANS\"," +
+                    "\"Override\" : \"null\"," +
+                    "\"AddressType\" : \"S\"," +
                     "\"user_fields\" : [ ]" +
                   "} ]" +
                 "}";
