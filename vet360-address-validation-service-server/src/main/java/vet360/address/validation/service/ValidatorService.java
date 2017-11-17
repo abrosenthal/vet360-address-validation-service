@@ -32,6 +32,8 @@ public class ValidatorService {
     public static SpectrumCufResponse validateCufAddress(AddressBio bio) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntityAddress;
+        Address responseAddress;
+        AddressBio responseBio;
         SpectrumCufResponse response = new SpectrumCufResponse();
         Map<Hints, String> hints;
         
@@ -49,10 +51,14 @@ public class ValidatorService {
         }
         
         //Transform Spectrum response into an Address object
-        Address responseAddress = createResponseAddress(responseEntityAddress);
+//        try {
+            responseAddress = createResponseAddress(responseEntityAddress);
         
-        //Populate AddressBio from Spectrum-returned Address 
-        AddressBio responseBio = ValidatorConverter.mapAddressToBio(responseAddress);
+            //Populate AddressBio from Spectrum-returned Address 
+            responseBio = ValidatorConverter.mapAddressToBio(responseAddress);
+//        } catch(NullPointerException e) {
+//            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "The address could not be validated");
+//        }
         
         //Populate a Map with Spectrum values that do not map to the AddressBio 
         hints = ValidatorConverter.getHints(responseAddress);

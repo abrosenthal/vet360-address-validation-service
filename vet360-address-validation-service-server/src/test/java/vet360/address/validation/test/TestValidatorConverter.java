@@ -56,4 +56,35 @@ public class TestValidatorConverter {
         Assert.assertTrue("Country name doesnt match", address.getCountry().equals(bio.getCountryName()));
         Assert.assertTrue("Zip doesnt match", address.getPostalCode().equals(bio.getZipCode()));
     }
+    
+    @Test
+    public void testDeserialization() {
+        String json = "{" +
+                "\"Output\" : [ {" +
+                    "\"AddressLine1\" : \"576 AUDUBON ST\", " +
+                    "\"StateProvince\" : \"LA\", " +
+                    "\"PostalCode\" : \"70118-4950\", " +
+                    "\"Confidence\" : \"100.00\", " +
+                    "\"City\" : \"NEW ORLEANS\", " +
+                    "\"Override\" : \"null\", " +
+                    "\"AddressType\" : \"S\", " +
+                    "\"user_fields\" : [ ]" +
+                  "} ]" +
+                "}";
+        
+        String expectedJson = "{" +
+                "" +
+                "\"AddressLine1\" : \"576 AUDUBON ST\"," +
+                "\"StateProvince\" : \"LA\"," +
+                "\"PostalCode\" : \"70118-4950\"," +
+                "\"Confidence\" : \"100.00\"," +
+                "\"City\" : \"NEW ORLEANS\"," +
+                "\"Override\" : \"null\"," +
+                "\"AddressType\" : \"S\"," +
+                "\"user_fields\" : [ ]" +
+              "" +
+            "}";
+        String deserializedJson = ValidatorConverter.trimJson(json);
+        Assert.assertEquals("Deserialized Json doesnt match expected", expectedJson, deserializedJson);
+    }
 }

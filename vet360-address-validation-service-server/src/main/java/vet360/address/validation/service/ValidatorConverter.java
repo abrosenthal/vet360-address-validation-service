@@ -51,7 +51,9 @@ public class ValidatorConverter {
     
     //Temporary workaround to deserialize the json
     public static String trimJson(String json) {
+        System.out.println(json);
         json = json.replaceFirst("\\\"Output\\\" : \\[ \\{", "");
+        System.out.println(json.replaceFirst("\\} \\]", ""));
         return json.replaceFirst("\\} \\]", "");
     }
 

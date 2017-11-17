@@ -21,13 +21,13 @@ import mdm.cuf.core.server.MdmCufCoreServerProperties;
 @AutoConfigureMockMvc
 public class ValidatorServerConfig_UnitTest {
 
-	@Autowired
-	private MdmCufCoreServerProperties properties;
+//	@Autowired
+//	private MdmCufCoreServerProperties properties;
 	
 	
-	@Test
-	public void contextLoads() {
-		Assert.assertNotNull(properties);
-	}
+//	@Test
+//	public void contextLoads() {
+//		Assert.assertNotNull(properties);
+//	}
 
 }
