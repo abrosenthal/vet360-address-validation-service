@@ -1,11 +1,6 @@
 version: '3'
 
 services:
-  kafka:
-    image: 
-
-  cuf-hub:
-    image:
 
   address-validation-service:
     build:
