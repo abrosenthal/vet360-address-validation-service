@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  kafka:
+    image: wurstmeister/kafka
+    # ports:
+    #   - "9092:9092"
+    environment:
+      KAFKA_HOST_NAME: kafka 
+
+  cuf-hub:
+    image:
+
+  address-validation-service:
+    image: vet360/address-validation-service 

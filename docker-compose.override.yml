@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  kafka:
+    image: 
+
+  cuf-hub:
+    image:
+
+  address-validation-service:
+    build:
+      context: ./vet360-address-validation-service-server
