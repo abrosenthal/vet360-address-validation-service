@@ -1,76 +1,67 @@
 package vet360.address.validation.service;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import mdm.cuf.person.bio.AddressBio;
-import vet360.address.validation.hints.Hints;
-import vet360.address.validation.service.dio.Address;
+import vet360.address.validation.service.bio.RequestAddress;
+import vet360.address.validation.service.bio.ResponseAddress;
 import vet360.address.validation.service.rest.SpectrumCufResponse;
+import vet360.address.validation.service.rest.ValidatorServerProperties;
 
+@Service
+/** This class contains the business logic in order to send the Address request to Spectrum's UAM and return the response to the sender */
 public class ValidatorService {
+    
+    @Autowired
+    ValidatorServerProperties properties; 
+    
     static Logger log = Logger.getLogger(ValidatorService.class) ;
     
     /** Overriding public constructor */
     private ValidatorService() {}
     
-    //Take in an AddressBio from a SpectrumCufRequest object, validate it, and return a SpectrumCufResponse object with Spectrum values
-    public static SpectrumCufResponse validateCufAddress(AddressBio bio) {
+    /** Take in an RequestAddress from a SpectrumCufRequest object, validate it with Spectrum's UAM, and return a SpectrumCufResponse object 
+     *  with UAM result values 
+     * */
+    public SpectrumCufResponse validateCufAddress(RequestAddress requestAddress) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntityAddress;
-        Address responseAddress;
-        AddressBio responseBio;
+        ResponseAddress responseAddress; 
         SpectrumCufResponse response = new SpectrumCufResponse();
-        Map<Hints, String> hints;
-        
         HttpEntity<String> entity = createHttpEntity();
-        
-        //Populate address from bio
-        Address address = ValidatorConverter.mapBioToAddress(bio);
 
-        //Call Spectrum UAM service 
+        //Call Spectrum's UAM and get the response
         try {
-            responseEntityAddress = restTemplate.exchange(createUrl(address), HttpMethod.GET, entity, String.class);
+            responseEntityAddress = restTemplate.exchange(createUrl(requestAddress), HttpMethod.GET, entity, String.class);
         }
         catch(HttpClientErrorException e) {
            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "The input data is invalid");
         }
         
-        //Transform Spectrum response into an Address object
-//        try {
-            responseAddress = createResponseAddress(responseEntityAddress);
-        
-            //Populate AddressBio from Spectrum-returned Address 
-            responseBio = ValidatorConverter.mapAddressToBio(responseAddress);
-//        } catch(NullPointerException e) {
-//            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "The address could not be validated");
-//        }
-        
-        //Populate a Map with Spectrum values that do not map to the AddressBio 
-        hints = ValidatorConverter.getHints(responseAddress);
-        
-        response.setBio(responseBio);
-        response.setHints(hints);
+        responseAddress = createResponseAddress(responseEntityAddress);
+        response.setBio(responseAddress);
         
         return response;
     }
 
-    //Create HttpEntity that enables authentication for the Spectrum server
-    private static HttpEntity<String> createHttpEntity() {
+    /** Create HttpEntity that provides user credentials for the Spectrum UAM server */
+    private HttpEntity<String> createHttpEntity() {
         String plainCreds = "vet360:guest";
         byte[] plainCredsBytes = plainCreds.getBytes();
         byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
@@ -83,14 +74,18 @@ public class ValidatorService {
         return entity;
     }
 
-    //Map the Json coming from Spectrum to an Address object
-    private static Address createResponseAddress(ResponseEntity<String> responseEntityAddress) {
+    /** Map the Json coming from Spectrum's UAM to a ResponseAddress object */
+    private ResponseAddress createResponseAddress(ResponseEntity<String> responseEntityAddress) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        Address responseAddress = null;
-        String modifiedJson = ValidatorConverter.trimJson(responseEntityAddress.getBody());
+        ResponseAddress responseAddress = new ResponseAddress();
+        System.out.println(responseEntityAddress.getBody());
         try {
-            responseAddress = objectMapper.readValue(modifiedJson, Address.class);
+            JsonNode node = objectMapper.readTree(responseEntityAddress.getBody());
+            JsonNode addressNode = node.get("Output").get(0);
+            responseAddress = objectMapper.treeToValue(addressNode, ResponseAddress.class);
+            String deserializedJson = objectMapper.writeValueAsString(responseAddress);
+            responseAddress = objectMapper.readValue(deserializedJson, ResponseAddress.class);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -98,11 +93,11 @@ public class ValidatorService {
     }
 
 
-    //Create the URL containing the information for Spectrum
-    private static String createUrl(Address address) {
-        return "http://10.200.100.30:8080/rest/WebService_UAMwithsubflows/" + address.getOverride() + "/"
-                + address.getAddressLine1() + "/" + address.getCity() +"/" + address.getStateProvince() + "/" 
-                + address.getPostalCode() + "/" + address.getCountry() + "/results.json";
+    /** Create the URL containing the information for Spectrum's UAM */
+    private String createUrl(RequestAddress address) {
+        return properties.getValidationServiceUrl() + properties.getUamServiceUrl() + "/" + address.getOverride() + "/"
+                + address.getStreet1() + "/" + address.getCityName() +"/" + address.getStateCode() + "/" 
+                + address.getZipCode() + "/" + address.getCountryName() + "/results.json";
     }
     
     

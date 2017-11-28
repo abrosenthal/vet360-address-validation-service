@@ -1,4 +1,4 @@
-package vet360.address.validation.service.dio;
+package vet360.address.validation.service.bio;
         
 
 import java.util.Date;
@@ -12,10 +12,11 @@ import mdm.cuf.core.api.ServiceResponse;
 
 @Component
 @ConfigurationProperties(prefix = "vet360.address.validation")
-public class Address extends ServiceResponse {
+/** This class represents the Address with all of the fields that are returned from Spectrum's UAM */
+public class ResponseAddress extends ServiceResponse {
     
     /** Overriding public constructor */
-    public Address() {}
+    public ResponseAddress() {}
     
 
     /** The Constant serialVersionUID.  */
@@ -53,7 +54,7 @@ public class Address extends ServiceResponse {
 	private String postalCode;
 	private String country;
 	
-	//Country-Geocoding
+	//Geocoding
 	private String countryName;
 	private int fips2;
 	private int iso2;
@@ -63,7 +64,7 @@ public class Address extends ServiceResponse {
 	private int geocodePrecision;
 	private Date geocodeCalcDate;
 	
-	//Validation results
+	//UAM Validation results
 	private String dpv;
 	private String rdi;
 	private String confidence;

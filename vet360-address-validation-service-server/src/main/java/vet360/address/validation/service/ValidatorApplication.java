@@ -13,15 +13,15 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 @Import(ValidatorServerConfig.class)
 @ComponentScan(basePackages = "vet360.address.validation", excludeFilters = @Filter(Configuration.class))
-public class StubAddressValidatorApplication extends SpringBootServletInitializer {
+public class ValidatorApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-	    SpringApplication.run(StubAddressValidatorApplication.class, args);
+	    SpringApplication.run(ValidatorApplication.class, args);
 	}
-	
+	 
 	@Override
     protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
-        return application.sources(StubAddressValidatorApplication.class);
+        return application.sources(ValidatorApplication.class);
     }
 	
 }

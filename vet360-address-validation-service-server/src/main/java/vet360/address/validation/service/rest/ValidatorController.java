@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +19,16 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import mdm.cuf.core.server.rest.provider.AbstractRestProvider;
 import mdm.cuf.core.server.rest.provider.SwaggerCommon;
-import mdm.cuf.person.bio.AddressBio;
 import vet360.address.validation.service.ValidatorService;
+import vet360.address.validation.service.bio.RequestAddress;
 
 @RequestMapping(value = ValidatorController.URL_PREFIX)
 @RestController
 @Api(tags = ValidatorController.TAG)
 public class ValidatorController extends AbstractRestProvider {
+    
+    @Autowired
+    ValidatorService service;
 
     /** The version of this rest endpoint */
     protected static final String VERSION = "1";
@@ -51,13 +55,13 @@ public class ValidatorController extends AbstractRestProvider {
     
 	@RequestMapping(value = "/validate", 
 	        method=RequestMethod.POST, 
-	        produces = {"application/json", "application/xml"})
+	        produces = "application/json")
 	@ApiOperation(value = "Validate", notes = "Will validate address within the body")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = SwaggerCommon.MESSAGE_200) })
 	public SpectrumCufResponse getResponse(@RequestBody SpectrumCufRequest cufRequest) {
 	    SpectrumCufResponse cufResponse;
-		AddressBio addressBio = (AddressBio) cufRequest.getBio();
-		cufResponse = ValidatorService.validateCufAddress(addressBio);
+		RequestAddress requestAddress = (RequestAddress) cufRequest.getAddress();
+		cufResponse = service.validateCufAddress(requestAddress);
 	    return cufResponse;
 	}
 }

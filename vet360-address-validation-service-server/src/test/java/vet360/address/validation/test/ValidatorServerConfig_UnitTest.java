@@ -17,7 +17,7 @@ import mdm.cuf.core.server.MdmCufCoreServerProperties;
  * @author randy
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=vet360.address.validation.service.StubAddressValidatorApplication.class)
+@SpringBootTest(classes=vet360.address.validation.service.ValidatorApplication.class)
 @AutoConfigureMockMvc
 public class ValidatorServerConfig_UnitTest {
 

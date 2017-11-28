@@ -37,6 +37,10 @@ mdm-cuf:
 rest-client:
   maxConnectionsPerRoute: 2
   maxConnections: 20
+  
+address-validation:
+  validationServiceUrl: http://10.200.100.30:8080
+  UamServiceUrl: /rest/WebService_UAMwithsubflows
 
 
 ---

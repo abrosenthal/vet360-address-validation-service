@@ -19,7 +19,7 @@ import mdm.cuf.core.server.MdmCufCoreServerConfig;
 
 
 @Configuration
-@ComponentScan(basePackages = {"vet360.address.validation.service" }, 
+@ComponentScan(basePackages = "vet360.address.validation.service", 
     excludeFilters = @Filter(Configuration.class))
 @Import({MdmCufCoreServerConfig.class, vet360.address.validation.service.rest.ValidatorRestProviderConfig.class})
 @EnableAutoConfiguration(exclude=org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class)
@@ -37,6 +37,5 @@ public class ValidatorServerConfig {
             }
         };
     }
-    
 }
 

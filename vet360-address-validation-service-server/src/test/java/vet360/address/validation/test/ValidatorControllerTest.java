@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  * @author randy
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=vet360.address.validation.service.StubAddressValidatorApplication.class)
+@SpringBootTest(classes=vet360.address.validation.service.ValidatorApplication.class)
 @AutoConfigureMockMvc
 public class ValidatorControllerTest {
 

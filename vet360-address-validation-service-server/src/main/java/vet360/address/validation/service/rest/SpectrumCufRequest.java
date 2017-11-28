@@ -2,22 +2,23 @@ package vet360.address.validation.service.rest;
 
 import org.springframework.stereotype.Component;
 
-import mdm.cuf.core.api.CufResponse;
-import mdm.cuf.person.bio.AddressBio;
+import mdm.cuf.core.api.CufRequest;
+import vet360.address.validation.service.bio.RequestAddress;
 
 @Component
-public class SpectrumCufRequest extends CufResponse {
+/** This class will contain the Address to be validated with Spectrum's UAM */
+public class SpectrumCufRequest extends CufRequest {
 
     private static final long serialVersionUID = -751681241680715523L;
     
-    private AddressBio bio = new AddressBio();
+    private RequestAddress address = new RequestAddress();
 
-    public AddressBio getBio() {
-        return bio;
+    public RequestAddress getAddress() {
+        return address;
     }
 
-    public void setBio(AddressBio bio) {
-        this.bio = bio;
+    public void setAddress(RequestAddress address) {
+        this.address = address;
     }
 
 }

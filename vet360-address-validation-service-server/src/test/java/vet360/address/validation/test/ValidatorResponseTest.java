@@ -13,7 +13,7 @@ import vet360.address.validation.service.rest.SpectrumCufResponse;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=vet360.address.validation.service.StubAddressValidatorApplication.class)
+@SpringBootTest(classes=vet360.address.validation.service.ValidatorApplication.class)
 @AutoConfigureMockMvc(secure = false)
 public class ValidatorResponseTest {
     
