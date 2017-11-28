@@ -1,0 +1,235 @@
+Feature: Phone Error Code Translation
+Scenario:
+Given:
+
+|CUF Error Code| Message to display in BSM|
+|	 PHON104      	|	 Area Code must be three characters |                                                                                                                                                                                                                                    	|
+|	 PHON105      	|	Phone Number cannot be empty	|
+|	 PHON106      	|	Cannot contain letters	|
+|	 PHON107      	|	Phone Number must be between 1 and 14 characters	|
+|	 PHON108      	|	Phone Number Extension must be bless than 11 characters	|
+|	 PHON109      	|	Phone Type cannot be empty	|
+|	 PHON110      	|	Phone Type must be: Mobile, Work, Fax, Home, or Pager	|
+|	 PHON111      	|	Effective Start Date needs to be in  YYYY-MM-DD format	|
+|	 PHON112      	|	Effective End Date needs to be in  YYYY-MM-DD format	|
+|	 PHON113      	|	Text Message Capable Indicator must be either true or false	|
+|	 PHON114      	|	Text Message Permission Indicator must be either true or false	|
+|	 PHON115      	|	Voicemail Permission Indicator must be either true or false	|
+|	 PHON116      	|	TTY Indicator must be either true or false	|
+|	 PHON117      	|	Connection Status Code must match: no known problem, no answer, non working number, no correct number, or null    	|
+|	 PHON118      	|	Confirmation Date must be in YYYY-MM-DD format	|
+|	 PHON119      	|	Source Date must not be null	|
+|	 PHON120      	|	Source Date must be in YYYY-MM-DDTHH:MM:SSZ  format 	|
+|	 PHON121      	|	Source Date is missing time stamp                    	|
+|	 PHON123      	|	 Telephone ID provided does not exist	|
+|	 PHON124      	|	You cannot have a telephone 	|
+|	 PHON125      	|	Telephone ID cannot be null	|
+|	 PHON126      	|	 Area Code must contain only numbers 	|
+|	 PHON201      	|	 Effective Start Date can not be more than 6 months after Source Date          	|
+|	 PHON205      	|	Area Code contains an invalid value              	|
+|	 PHON206      	|	 Confirmation Date can not be in the future          	|
+|	 PHON207      	|	 Domestic phone number size must be  7 characters       	|
+|	 PHON300      	|	Effective End date has passed - cannot modify an existing inactive record     	|
+|	 PHON301      	|	 Can not insert a record for a phone type that already exists. Pull the phone record and update it using the telphoneId provided.   	|
+|	 PHON302      	|	 Effective End Date can not be in the past and must be after Effective Start Date   	|
+|	 PHON304      	|	Cannot accept a request with multiple phones of the same type 	|
+|	 PHON305      	|	 Cannot update the record if Phone Type  does not match: Mobile, Work, Fax or Home 	|
+
+When: a Phone error is passed to the BSM in a message
+Then: The BSM handler will translate the code into an error message
+And: The BSM handler will pass the error to the 'Status' field
+And: This status will be visible to the data steward
+
+Feature: Email Error Code Translation
+Scenario
+Given:
+|	 EMAIL101     	|	Email Address cannot be empty	|
+|	 EMAIL102     	|	Effective Start Date needs to be in  YYYY-MM-DD format	|
+|	 EMAIL103     	|	Effective End Date needs to be in  YYYY-MM-DD format	|
+|	 EMAIL104     	|	Email Permission Indicator must be either true or false	|
+|	 EMAIL105     	|	emailStatusCode must match:  no known problem, returned undeliverable or incorrect address                                                                                                                                                                        	|
+|	 EMAIL106     	|	Confirmation Date needs to be in  YYYY-MM-DD format	|
+|	 EMAIL107     	|	Effective Start Date cannot be empty	|
+|	 EMAIL108     	|	Source Date needs to be in YYYY-MM-DDTHH:MM:SSZ  format and cannot be in the future	|
+|	 EMAIL109     	|	Source Date needs to be in YYYY-MM-DDTHH:MM:SSZ  format	|
+|	 EMAIL110     	|	Email ID does not exist	|
+|	 EMAIL201     	|	Email ID cannot be empty	|
+|	 EMAIL202     	|	 Effective Start Date can not be more than 6 months after Source Date                                                                                                                                                                                             	|
+|	 EMAIL204     	|	 Confirmation Date can not be in the future                                                                                                                                                                                                                             	|
+|	 EMAIL205     	|	 Effective End Date can not be in the past and must be after Effective Start Date                                                                                                                                                                                          	|
+|	 EMAIL206     	|	 Confirmation Date can not be older than Source Date                                                                                                                                                                                                                   	|
+|	 EMAIL300   	|	This Record is inactive	|
+|	 EMAIL301     	|	 Can not insert a record for an email address that already exists. Please pull the email record and update it using the emailId provided    	|
+|	 EMAIL302     	|	 email Address Text must be between 0 and 255 characters 	|
+|	 EMAIL303     	|	The local part of the email cannot exceed 65 characters	|
+|	 EMAIL304     	|	The Domain name of the email cannot exceed 64 characters	|
+|	 EMAIL305     	|	 Email Address Text cannot have 2 @ symbols, must have at least one period '.' after the @ character, and cannot have  '.%' or '%.' or '%..%' or " ( ) , : ; < > @ [ ] \ or space unless in a quoted string in the local part. 	|
+|	 EMAIL306     	|	Cannot have more than one type of email address	|
+|	 EMAIL307     	|	 Cannot modify an existing inactive record.    	|
+
+When: an email error is passed to the BSM in a message
+Then: The BSM handler will translate the code into an error message
+And: The BSM handler will pass the error to the 'Status' field
+And: This status will be visible to the data steward
+
+Feature: Address Error Code Translation
+Scenario:
+Given:
+|	 ADDR101    	|	Address Type cannot be empty	|
+|	 ADDR102    	|	Effective Start Date needs to be in  YYYY-MM-DD format	|
+|	 ADDR103  	|	Effective End Date needs to be in  YYYY-MM-DD format	|
+|	 ADDR104    	|	Confirmation Date needs to be in  YYYY-MM-DD format	|
+|	 ADDR105    	|	Source Date needs to be in YYYY-MM-DDTHH:MM:SSZ  format	|
+|	 ADDR106    	|	Source Date is missing a time stamp	|
+|	 ADDR107    	|	Address ID provided does not exist	|
+|	 ADDR110  	|	Address Purpose of use cannot be empty	|
+|	 ADDR110  	|	Address Purpose of use cannot be more than 35 character	|
+|	 ADDR108  	|	Address Line 1 cannot be more than 100 characters on input and cannot be more than 40 for storage	|
+|	 ADDR109  	|	Address Line 1 must contain only letters and numbers	|
+|	 ADDR110  	|	Address Line 2 cannot be more than 100 characters on input and cannot be more than 40 for storage	|
+|	 ADDR111  	|	Address Line 2 must contain only letters and numbers	|
+|	 ADDR112  	|	Address Line 3 cannot be more than 100 characters on input and cannot be more than 40 for storage	|
+|	 ADDR113  	|	Address Line 3 must contain only letters and numbers	|
+|	 ADDR114  	|	Bad Address Indicator must be true or false	|
+|	 ADDR115  	|	Bad Address indicator cannot be more than 35 characters	|
+|	 ADDR116  	|	Bad Address indicator cannot be more than 35 characters	|
+|	 ADDR117  	|	Bad Address indicator must be alphanumeric 	|
+|	 ADDR118  	|	City Name cannot be more than 100 characters on input and cannot be more than 40 for storage	|
+|	 ADDR119  	|	City Name must contain only letters and numbers	|
+|	 ADDR120  	|	State code cannot be more than 2 character	|
+|	 ADDR121  	|	State code must have only letters	|
+|	 ADDR122  	|	Zip Code cannot be more than 5 characters	|
+|	 ADDR123  	|	Zip Code must contain only letters and numbers	|
+|	 ADDR124  	|	Zip Code 4 cannot be more than 4 characters	|
+|	 ADDR125  	|	Zip Code 4 must contain only letters and numbers	|
+|	 ADDR126  	|	Province Name cannot be more than 100 characters on input and cannot be more than 40 for storage	|
+|	 ADDR127  	|	Province name must contain only letters and numbers	|
+|	 ADDR128  	|	International Postal Code cannot be more than 100 characters on input and cannot be more than 40 for storage	|
+|	 ADDR129  	|	International Postal code must contain only numbers	|
+|	 ADDR130  	|	Country Name cannot be more than 35 characters	|
+|	 ADDR131  	|	Country Name can be only letters	|
+|	 ADDR132  	|	FIPS Country Code cannot be more than 3 characters	|
+|	 ADDR133  	|	FIPS Country Code can be only letters or numbers	|
+|	 ADDR134  	|	ISO2 Country Code cannot be more than 2 characters	|
+|	 ADDR135  	|	ISO2 Country Code can be only letters or numbers	|
+|	 ADDR136  	|	ISO3 Country Code cannot be more than 3 characters	|
+|	 ADDR137  	|	ISO3 Country Code can be only letters or numbers	|
+|	 ADDR138  	|	Latitude cannot be more than 35 characters	|
+|	 ADDR139  	|	Lattitude must be alphanumeric	|
+|	 ADDR140  	|	Longitude cannot be more than 35 characters	|
+|	 ADDR141  	|	Longitude must be alphanumeric	|
+|	 ADDR142  	|	Geocode Precision cannot be more than 35 characters	|
+|	 ADDR143  	|	Geocode Precision must be alphanumeric	|
+|	 ADDR144  	|	Geocode Date cannot be more than 35 characters	|
+|	 ADDR145  	|	Geocode Date must be in YYYY-MM-DDTHH:MM:SSZ Format	|
+|	 ADDR200    	|	 The Address ID in the email bio must be empty for inserts/adds	|
+|	 ADDR201    	|	Address ID cannot be empty	|
+|	 ADDR202    	|	 Effective Start Date can not be more than 6 months after Source Date        	|
+|	 ADDR203    	|	 effectiveEndDate cannot be present when adding an address	|
+|	 ADDR204    	|	Confirmation Date cannot be in the future	|
+|	 ADDR205    	|	Effective End Date can not be in the past and must be after Effective Start Date	|
+|	 ADDR206    	|	ConfirmationDate can not be older than Source Date	|
+|	 ADDR300  	|	The Effective End Date has passed, you cannot modify an existing inactive record	|
+
+When: an address basic validation error is passed to the BSM in a message
+Then: The BSM handler will translate the code into an error message
+And: The BSM handler will pass the error to the 'Status' field
+And: This status will be visible to the data steward
+
+//// UAM Error Code Translation
+
+Feature: Record Level Indicators - CouldNotValidate from the UAM
+Given:
+| Field Result    | Error to Display  |
+|	ApartmentNumber	|	Unable to validate Apartment Number	|
+|	HouseNumber   	|	Unable to validate House Number	|
+|	StreetName	    |	Unable to validate Street Name	|
+|	PostalCode	    |	Unable to validate Postal Code	|
+|	City            |	Unable to validate City	|
+|	Directional	    |	Unable to validate Street Directional	|
+|	StreetSuffix	  |	Unable to validate Street Suffix	|
+|	Firm	          |	Unable to validate Firm	|
+|	POBoxNumber   	|	Unable to validate PO Box	|
+|	RuralRoute	    |	Unable to validate Rural Route Number 	|
+|	PostalCode,City |	Unable to validate Postal Code, Unable to validate city	|
+| null            | null  |
+
+Scenario:
+When: One of the Field Results is returned in the 'CouldNotValidate' field from the UAM
+Then: One of the Errors to Display is passed in a message to the CUF
+And: The Error to Display is passed to the BSM in a field titled 'UAM Errors'
+
+
+
+Feature: Residential Delivery Indicator
+Given:
+| Field Result |  Error to Display  |
+|	R	|	null	|
+|	B	|	The address is a business address	|
+|	M	|	The address is both a residential and a business address	|
+|null|	This address was unable to be confirmed	|
+
+Scenario:
+When: One of the Field Results is returned in the 'RDI' field
+Then: One of the Errors to Display is passed in a message to the CUF
+And: The Error to Display is passed to the BSM in a field titled 'UAM Errors'
+
+Feature:  Delivery Point Validation Error Message
+Given:
+|Result|  Error to Display  |
+|	Y	| Mail can be delivered to this address |
+|	N	|	Mail cannot be delivered to the address	|
+|	S	|	The building number was validated but the unit number could not be confirmed 	|
+|	D	|	The building number was validated but the unit number was missing from input	|
+|	M	|	The address matches multiple valid delivery points	|
+|	U	|	The address could not be validated	|
+|	V	|	The address caused a false-positive violation	|
+
+Scenario:
+When: One of the Field Results is returned in the 'DPV' field
+Then: One of the Errors to Display is passed in a message to the CUF
+And: The Error to Display is passed to the BSM in a field titled 'UAM Errors'
+
+Feature:  Confidence Result Message
+| Confidence  | Error to Display  |
+| 80-100 | Address could be validated | 
+|	1-79	 | Address output is significantly different than input	|
+| 0      | Address can not be validated  |
+
+Scenario:
+When: One of the Field Results is returned in the 'Confidence' field
+Then: One of the Errors to Display is passed in a message to the CUF
+And: The Error to Display is passed to the BSM in a field titled 'UAM Errors'
+
+
+Feature: Return AdditionalInputData field
+
+| AdditionalInputData | Error to Display  |
+| "Leave at door"     | "Leave at door"|
+| "PO Box 123"        | "PO Box 123" |
+| "Leave at door","PO Box 123" | "Leave at door","PO Box 123"|
+| null | null|
+
+Scenario: 
+When:  The field 'AdditionalInputData'  is not null'
+Then: ALL info from AdditionalInputData is passed in a message to the CUF
+And: The Error to Display is passed to the BSM in a field titled 'UAM Errors'
+
+Feature: Splitting and Storing BIOS
+
+Scenario:
+When: An Update is passed to the BSM
+And: The update has more than one BIO
+Then: All BIOs with an error will be passed to the BSM
+And: All BIOs with no errors will be held in a temporary cache
+
+
+Feature: Hints in other exceptions
+
+Scenario:
+When: An Update transaction is passed to the BSM
+And: The update has more than one BIO
+And: More than one BIO has an error
+Then: All BIOs with an error will be passed to the BSM
+And: There will be a note within the BIO's comment in the BSM
+And: The comment will point a data steward to the other error in the transaction
