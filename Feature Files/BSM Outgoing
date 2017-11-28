@@ -1,0 +1,32 @@
+Feature: Reconstitute a BIO
+
+When: A BIO exception record is resolved
+And: There are no other BIOs associated with that transaction
+Then: The BIO will be sent to the CUF through the Contact Info Maintenence Point
+
+
+Feature: Reconstitute more than one BIO with errors
+
+When: A BIO exception record is resolved
+And: There are other BIOs with errors associated with that transaction
+And If: those BIOs have had their errors resolved
+Then: Those BIOs will be stitched together 
+And: The BIOs will be sent to the CUF through the Contact Info Maintenence Point in one transaction
+
+
+Feature: Reconstitute more than one BIO with no errors
+
+When: A BIO exception record is resolved
+And: There are other BIOs with no errors associated with that transaction
+Then: Those BIOs will be stitched together 
+And: The BIOs will be sent to the CUF through the Contact Info Maintenence Point in one transaction
+
+Feature: Source System Values Update
+
+When: A BIO leaves the exception queue
+And: That BIO had been altered by a data steward
+Then: The following values be updated as shown
+
+| Originating Source System | No Change |
+| Source System | Vet360 |
+| Source Date | time the record exits the BSM in YYYY-MM-DDTHH:MM:SSZ format |
