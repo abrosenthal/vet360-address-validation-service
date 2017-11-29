@@ -79,7 +79,6 @@ public class ValidatorService {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
         ResponseAddress responseAddress = new ResponseAddress();
-        System.out.println(responseEntityAddress.getBody());
         try {
             JsonNode node = objectMapper.readTree(responseEntityAddress.getBody());
             JsonNode addressNode = node.get("Output").get(0);
