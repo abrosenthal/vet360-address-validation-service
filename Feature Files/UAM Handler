@@ -272,18 +272,9 @@ Scenario Outline: Fail address BIO when receive record where CouldNotValidate fr
 	Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
 Examples:
 	| fieldResult       	|addressLine1 	|addressLine2	|city 		| state		| errorToDisplay                          |messageCode |
-	|	apartmentNumber	|hhr444@	|		|		|		|Unable to validate Apartment Number	  | TBD101     |
-	|	HouseNumber   	|$$$	    	|		|		|		|Unable to validate House Number	      | TBD301     |
-	|	StreetName      |$$$    	|		|		|		|Unable to validate Street Name	      | TBD101     |
-	|	PostalCode      |$$$    	|		|		|		|Unable to validate Postal Code	      | TBD101     |
-	|	City            |$$$    	|		|		|		|Unable to validate City	              | TBD101     |
-	|	Directional     |$$$    	|		|		|		|Unable to validate Street Directional | TBD101     |
-	|	StreetSuffix	|$$$   		|		|		|		|Unable to validate Street Suffix	  | TBD101     |
-	|	Firm	        |$$$    	|		|		|		|Unable to validate Firm               | TBD101     |
-	|	POBoxNumber   	|$$$    	|		|		|		|Unable to validate Rural Route Number 	| TBD101     |
-	|	PostalCode,City |$$$    	|		|		|		|Unable to validate Postal Code, Unable to validate city	| TBD101     |
-
-
+	|HouseNumber, PostalCode|12312312 Gordon Ave |		|Charlottesville|VA		|Unable to validate House Number, Unable to validate Postal Code| TBD301     |
+	|StreetName, PostalCode	|1305 Gorgqn Ave|		|Charlottesville|VA		|Unable to validate Street Name, Unable to validate Postal Code	      | TBD101     |
+	|PostalCode, City      	|1305 Gordon Ave|		|sajljdlsafsda	|VA		|Unable to validate City	              | TBD101     |
 
 
 
@@ -307,12 +298,12 @@ When the system validates RDI field and determines that it has "<Result>"
 Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
 Examples: 
 |addressLine1	| addressLine2 	| city	| state |Result		|errorToDisplay 			| messageCode |
-|		|		|	|	|	Y	|Mail can be delivered to this address |TBD301     |
-|		|		|	|	|	N	|Mail cannot be delivered to the address	|TBD301     |
-|		|		|	|	|	S	|The building number was validated but the unit number could not be confirmed 	|TBD301     |
-|		|		|	|	|	D	|The building number was validated but the unit number was missing from input	|TBD301     |
+|5134 Carters Run rd|		|Marshall|VA	|	Y	|Mail can be delivered to this address |TBD301     |
+|5134 Carters Run rd|		|Marshall|VA	|	N	|Mail cannot be delivered to the address	|TBD301     |
+|600 Brandon Ave|APT 430840392	|Charlotesvlle|VA|	S	|The building number was validated but the unit number could not be confirmed 	|TBD301     |
+|600 Brandon Ave|		|Charlotesvlle|VA|	D	|The building number was validated but the unit number was missing from input	|TBD301     |
 |		|		|	|	|	M	|The address matches multiple valid delivery points	|TBD301     |
-|		|		|	|	|	U	|The address could not be validated	|TBD301     |
+|8383 Peach Tree Place NE|	|Silverdale| WA	|	U	|The address could not be validated	|TBD301     |
 |		|		|	|	|	V	|The address caused a false-positive violation	|TBD301     |
 
 
