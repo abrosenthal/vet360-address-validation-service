@@ -285,10 +285,10 @@ When the system validates RDI field and determines that it has "<RDI>"
 Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
 Examples: 
 |addressLine1	| addressLine2 	| city	| state | RDI   | errorToDisplay                                          	|messageCode |
-|		|		|	|	|R	| null	                                                	| TBD301     |
-|		|		|	|	|B	| The address is a business address	                   	| TBD301     |
-|		|		|	|	|M	| The address is both a residential and a business address	| TBD301    |
-|		|		|	|	|null   | This address was unable to be confirmed	                | TBD301     |
+|5134 Carters Run rd|		|Marshall| VA	|R	| null	                                                	| TBD301     |
+|4197-F Winchester Rd|		|Marshall| VA	|B	| The address is a business address	                   	| TBD301     |
+|8453 W Main St	|		|Marshall| VA	|M	| The address is both a residential and a business address	| TBD301    |
+|fake		|		|nowhere|VA	|null   | This address was unable to be confirmed	                | TBD301     |
 
 
 Scenario Outline: Fail when Delivery Point Validation field is returned after address validation with N, S, D, M, U or V
@@ -314,11 +314,10 @@ When the system validates Confidence field and determines that it has "<Confiden
 Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
 Examples: 
 |addressLine1	| addressLine2 	| city	| state | Confidence  | errorToDisplay     | messageCode |
-|		|		|	|	| 100 | Address could be validated | TBD301     |
-|		|		|	|	| 80  | Address could be validated | TBD301     |
-|		|		|	|	| 79  | Address output is significantly different than input | TBD301     |
-|		|		|	|	| 1   | Address output is significantly different than input	|TBD301     |
-|		|		|	|	| 0   | Address can not be validated  |TBD301     |
+|5134 Carters Run rd|		|Marshall Va 20115|	| 100 | Address could be validated | TBD301     |
+|5134 Carters Run rd|		|Marshall|VA	| 81  | Address could be validated | TBD301     |
+|5134 Carters run W rd|		|Marshall|VA	| 77  | Address output is significantly different than input | TBD301     |
+|5134 Carters	|		|Marshall|VA	| 0   | Address can not be validated  |TBD301     |
 
 
 
