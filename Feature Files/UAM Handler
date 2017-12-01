@@ -266,9 +266,9 @@ Scenario: Populate four county fields after address validation is complete
 
 @goodExample
 Scenario Outline: Fail address BIO when receive record where CouldNotValidate from the UAM has one of the core fields
-	Given the address BIO with "<value>" in the "<fieldResult>" was sent to spectrum for address validation
+	Given the address BIO with "<addressLine1>", "<addressLine2>", "<city>", and "<state>"  was sent to spectrum for address validation
 	And the address BIO returned from address validation and CouldNotValidate field has "<fieldResult>" 
-	When the system validates CouldNotValidate field and determines that it has "<fieldResult>" 
+	When the UAM handler reads CouldNotValidate field and determines that it has "<fieldResult>" 
 	Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
 Examples:
 	| fieldResult       	|addressLine1 	|addressLine2	|city 		| state		| errorToDisplay                          |messageCode |
@@ -288,53 +288,62 @@ Examples:
 
 
 Scenario Outline: Fail when Residential Delivery Indicator field is returned after address validation with R, B, or M
-Given the address BIO with "<value>" in the "<fieldResult>" was sent to spectrum for address validation
+Given the address BIO with "<addressLine1>", "<addressLine2>", "<city>", and "<state>"  was sent to spectrum for address validation
 Given the address BIO returned from address validation and RDI field has "<RDI>" 
 When the system validates RDI field and determines that it has "<RDI>" 
 Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
 Examples: 
-|addressLine1	| addressLine2 	| city	| state | RDI   |value| ErrorToDisplay                                          |messageCode |
-|		|		|	|	|R	|	  | null	                                                | TBD301     |
-|		|		|	|	|B	|	  |	The address is a business address	                    | TBD301     |
-|		|		|	|	|M	|	  |	The address is both a residential and a business address| TBD301     |
-|		|		|	|	|null   |	  |	This address was unable to be confirmed	                | TBD301     |
+|addressLine1	| addressLine2 	| city	| state | RDI   | errorToDisplay                                          	|messageCode |
+|		|		|	|	|R	| null	                                                	| TBD301     |
+|		|		|	|	|B	| The address is a business address	                   	| TBD301     |
+|		|		|	|	|M	| The address is both a residential and a business address	| TBD301    |
+|		|		|	|	|null   | This address was unable to be confirmed	                | TBD301     |
 
 
-Scenario:  Delivery Point Validation Error Message
-Given
-|addressLine1	| addressLine2 	| city	| state |Result		|  	Error to Display  |
-|		|		|	|	|	Y	| 	Mail can be delivered to this address |
-|		|		|	|	|	N	|	Mail cannot be delivered to the address	|
-|		|		|	|	|	S	|	The building number was validated but the unit number could not be confirmed 	|
-|		|		|	|	|	D	|	The building number was validated but the unit number was missing from input	|
-|		|		|	|	|	M	|	The address matches multiple valid delivery points	|
-|		|		|	|	|	U	|	The address could not be validated	|
-|		|		|	|	|	V	|	The address caused a false-positive violation	|
-When One of the Field Results is returned in the 'DPV' field
-Then One of the Errors to Display is passed in a message to the CUF
-
-Scenario:  Confidence Result Message
-|addressLine1	| addressLine2 	| city	| state | Confidence  | Error to Display  |
-|		|		|	|	| 100 | Address could be validated | 
-|		|		|	|	| 80  | Address could be validated | 
-|		|		|	|	| 79  | Address output is significantly different than input | 
-|		|		|	|	| 1   | Address output is significantly different than input	|
-|		|		|	|	| 0   | Address can not be validated  |
-
-When: One of the Field Results is returned in the 'Confidence' field
-Then: One of the Errors to Display is passed in a message to the CUF
+Scenario Outline: Fail when Delivery Point Validation field is returned after address validation with N, S, D, M, U or V
+Given the address BIO with "<addressLine1>", "<addressLine2>", "<city>", and "<state>"  was sent to spectrum for address validation
+Given the address BIO returned from address validation and DPV field has "<Result>" 
+When the system validates RDI field and determines that it has "<Result>" 
+Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
+Examples: 
+|addressLine1	| addressLine2 	| city	| state |Result		|errorToDisplay 			| messageCode |
+|		|		|	|	|	Y	|Mail can be delivered to this address |TBD301     |
+|		|		|	|	|	N	|Mail cannot be delivered to the address	|TBD301     |
+|		|		|	|	|	S	|The building number was validated but the unit number could not be confirmed 	|TBD301     |
+|		|		|	|	|	D	|The building number was validated but the unit number was missing from input	|TBD301     |
+|		|		|	|	|	M	|The address matches multiple valid delivery points	|TBD301     |
+|		|		|	|	|	U	|The address could not be validated	|TBD301     |
+|		|		|	|	|	V	|The address caused a false-positive violation	|TBD301     |
 
 
-Feature: Return AdditionalInputData field
+Scenario Outline: Return error message based on what Confidence level is returned after address validation
+Given the address BIO with "<addressLine1>", "<addressLine2>", "<city>", and "<state>"  was sent to spectrum for address validation
+Given the address BIO returned from address validation and Confidence field has "<Confidence>" 
+When the system validates Confidence field and determines that it has "<Confidence>" 
+Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
+Examples: 
+|addressLine1	| addressLine2 	| city	| state | Confidence  | errorToDisplay     | messageCode |
+|		|		|	|	| 100 | Address could be validated | TBD301     |
+|		|		|	|	| 80  | Address could be validated | TBD301     |
+|		|		|	|	| 79  | Address output is significantly different than input | TBD301     |
+|		|		|	|	| 1   | Address output is significantly different than input	|TBD301     |
+|		|		|	|	| 0   | Address can not be validated  |TBD301     |
 
-| AdditionalInputData | Error to Display  |
-| "Leave at door"     | "Leave at door"|
-| "PO Box 123"        | "PO Box 123" |
-| "Leave at door","PO Box 123" | "Leave at door","PO Box 123"|
-| null | null|
 
-Scenario: 
-When:  The field 'AdditionalInputData'  is not null'
-Then: ALL info from AdditionalInputData is passed in a message to the CUF
+
+
+Scenario Outline: Fail an address that has any values in the AdditionalInputData and return those values in a message to the CUF
+Given the address BIO with "<addressLine1>", "<addressLine2>", "<city>", and "<state>"  was sent to spectrum for address validation
+Given the address BIO returned from address validation and AdditionalInputData field has "<Confidence>" 
+When the system validates Confidence field and determines that it has "<Confidence>" 
+Then the system will set error message key to "<messageCode>" and message text to  "<errorToDisplay>" error and send to the CUF
+Examples: 
+|addressLine1	    	| addressLine2 	| city	  | state | AdditionalInputData |errorToDisplay  |messageCode |
+|5134 Carters run rd	| Leave at door	|Marshall | VA	  | "Leave at door"     | "Leave at door"| TBD 301 |
+|PO Box 12		|PO Box 123	|Marshall | VA	  | "PO Box 123"        | "PO Box 123"   | TBD 301 |
+|PO Box 12 Leave at door|PO Box 123	|Marshall | VA	  | "Leave at door","PO Box 123" | "Leave at door","PO Box 123"| TBD 301 |
+|5134 Carters run rd	|		|Marshall | VA	  |null 		| null| TBD 301 |
+
+
 
 
